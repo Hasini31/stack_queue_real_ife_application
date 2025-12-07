@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neon Kitchen: Stack & Queue</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <div class="logo">CYBER KITCHEN <span style="color:#facc15">v2.0</span></div>
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-label">QUEUE (FIFO)</div>
+                <div class="stat-value" id="queue-display">0 / 5</div>
+                <div class="stat-bar"><div id="q-bar-fill" style="width: 0%"></div></div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">STACK (LIFO)</div>
+                <div class="stat-value" id="stack-display">0 / 5</div>
+                <div class="stat-bar"><div id="s-bar-fill" style="width: 0%"></div></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN 3D STAGE -->
+    <div class="stage">
+        
+        <!-- LEFT: CONVEYOR BELT (QUEUE) -->
+        <div class="machine-unit">
+            <div class="unit-header">INCOMING BELT</div>
+            <div class="conveyor-housing">
+                <!-- The Moving Texture -->
+                <div class="belt-texture"></div> 
+                <!-- The Container for Plates -->
+                <div class="belt-items" id="queue-container">
+                    <!-- Plates added here -->
+                </div>
+            </div>
+            <div class="status-light" id="queue-light">ACTIVE</div>
+        </div>
+
+        <!-- RIGHT: SINK (STACK) -->
+        <div class="machine-unit">
+            <div class="unit-header">WASH BASIN</div>
+            <div class="sink-housing">
+                <div class="water-surface"></div>
+                <div class="sink-items" id="stack-container">
+                    <!-- Plates added here -->
+                </div>
+            </div>
+            <div class="status-light" id="stack-light">ACTIVE</div>
+        </div>
+
+    </div>
+
+    <!-- CONTROL PANEL -->
+    <div class="control-deck">
+        <button class="btn btn-add" onclick="opEnqueue()">
+            <span class="icon">➕</span> ENQUEUE ORDER
+        </button>
+        <button class="btn btn-transfer" onclick="opTransfer()">
+            <span class="icon">➡️</span> TRANSFER TO SINK
+        </button>
+        <button class="btn btn-wash" onclick="opPop()">
+            <span class="icon">🧼</span> WASH TOP
+        </button>
+    </div>
+
+    <!-- ERROR MODAL POPUP -->
+    <div id="modal-overlay" class="modal-hidden">
+        <div class="modal-content">
+            <div class="modal-glow"></div>
+            <h2 id="modal-title">WARNING</h2>
+            <p id="modal-msg">Error Message Here</p>
+            <button class="btn-close" onclick="closeModal()">ACKNOWLEDGE</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

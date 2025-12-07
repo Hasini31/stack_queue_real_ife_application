@@ -1,0 +1,185 @@
+/* --- GLOBAL THEME --- */
+:root {
+    --bg-dark: #0f172a;
+    --machine-grey: #1e293b;
+    --neon-blue: #0ea5e9;
+    --neon-green: #22c55e;
+    --neon-pink: #d946ef;
+    --neon-red: #ef4444;
+}
+
+body {
+    background-color: var(--bg-dark);
+    background-image: radial-gradient(circle at 50% -20%, #1e293b 0%, #000 100%);
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* --- HEADER --- */
+header { width: 100%; display: flex; flex-direction: column; align-items: center; margin-top: 20px; z-index: 10; }
+.logo { font-family: 'Orbitron', sans-serif; font-size: 32px; font-weight: 700; letter-spacing: 4px; text-shadow: 0 0 15px var(--neon-blue); margin-bottom: 20px; }
+
+.stats-container { display: flex; gap: 40px; }
+.stat-card { background: rgba(255,255,255,0.05); padding: 15px 25px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); width: 180px; }
+.stat-label { font-size: 12px; color: #94a3b8; letter-spacing: 1px; margin-bottom: 5px; }
+.stat-value { font-family: 'Orbitron', sans-serif; font-size: 24px; color: white; }
+.stat-bar { width: 100%; height: 4px; background: #334155; margin-top: 8px; border-radius: 2px; overflow: hidden; }
+#q-bar-fill, #s-bar-fill { height: 100%; background: var(--neon-green); transition: width 0.3s; }
+
+/* --- 3D STAGE --- */
+.stage {
+    display: flex; gap: 60px; margin-top: 50px;
+    perspective: 1200px; /* Deep 3D effect */
+}
+
+.machine-unit {
+    display: flex; flex-direction: column; align-items: center;
+    transform-style: preserve-3d;
+}
+
+.unit-header { font-family: 'Orbitron'; color: var(--neon-blue); margin-bottom: 10px; font-size: 14px; letter-spacing: 2px; }
+
+/* --- CONVEYOR BELT (ANIMATED) --- */
+.conveyor-housing {
+    width: 350px; height: 140px;
+    background: #000;
+    border: 4px solid #334155;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+    transform: rotateX(25deg); /* Tilted back */
+    box-shadow: 0 30px 50px rgba(0,0,0,0.6);
+}
+
+/* The Moving Pattern */
+.belt-texture {
+    position: absolute; top: 0; left: 0; width: 200%; height: 100%;
+    background: repeating-linear-gradient(
+        90deg,
+        #1a1a1a,
+        #1a1a1a 20px,
+        #2a2a2a 20px,
+        #2a2a2a 40px
+    );
+    animation: scrollBelt 2s linear infinite; /* INFINITE MOVEMENT */
+}
+
+@keyframes scrollBelt { from { transform: translateX(0); } to { transform: translateX(-40px); } }
+
+.belt-items {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: flex-end; /* Start Right */
+    padding-right: 20px;
+}
+
+/* --- SINK (STACK) --- */
+.sink-housing {
+    width: 180px; height: 260px;
+    background: linear-gradient(to bottom, rgba(14, 165, 233, 0.1), rgba(14, 165, 233, 0.3));
+    border: 2px solid rgba(14, 165, 233, 0.4); border-top: none;
+    border-radius: 0 0 20px 20px;
+    position: relative;
+    transform: rotateX(10deg);
+    transform-style: preserve-3d;
+    box-shadow: 0 0 30px rgba(14, 165, 233, 0.1);
+}
+
+/* Animated Water Surface */
+.water-surface {
+    position: absolute; top: 10px; left: 0; width: 100%; height: 95%;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(255,255,255,0) 0px,
+        rgba(255,255,255,0.05) 1px,
+        rgba(255,255,255,0) 3px
+    );
+    animation: waterFlow 3s infinite linear;
+    pointer-events: none; z-index: 0;
+}
+@keyframes waterFlow { 0% { background-position: 0 0; } 100% { background-position: 0 20px; } }
+
+.sink-items {
+    width: 100%; height: 100%;
+    display: flex; flex-direction: column-reverse; /* STACK VISUAL */
+    align-items: center; padding-bottom: 20px;
+}
+
+/* --- THE 3D PLATES --- */
+.plate {
+    width: 90px; height: 25px; /* Flattened cylinder */
+    border-radius: 50%;
+    background: #64748b; /* Side color */
+    position: relative;
+    margin-top: -15px; /* Stacking overlap */
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 2;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+}
+
+/* The Top Face */
+.plate::before {
+    content: attr(data-id);
+    position: absolute; top: -8px; left: 0; width: 100%; height: 100%;
+    border-radius: 50%;
+    background: white;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: bold; color: #0f172a; border: 1px solid #cbd5e1;
+}
+
+/* Neon Colors */
+.plate.c1::before { background: #fce7f3; border-color: var(--neon-pink); box-shadow: inset 0 0 10px var(--neon-pink); }
+.plate.c2::before { background: #e0f2fe; border-color: var(--neon-blue); box-shadow: inset 0 0 10px var(--neon-blue); }
+.plate.c3::before { background: #dcfce7; border-color: var(--neon-green); box-shadow: inset 0 0 10px var(--neon-green); }
+
+.ghost { position: fixed; z-index: 100; pointer-events: none; transition: top 0.7s ease-in-out, left 0.7s ease-in-out, transform 0.7s; }
+
+/* --- CONTROLS --- */
+.control-deck { margin-top: 60px; display: flex; gap: 30px; background: rgba(255,255,255,0.05); padding: 20px 40px; border-radius: 20px; backdrop-filter: blur(10px); }
+.btn {
+    padding: 15px 30px; border: none; border-radius: 8px;
+    font-family: 'Orbitron'; font-weight: 700; letter-spacing: 1px; color: white;
+    cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 10px;
+    box-shadow: 0 5px 0 rgba(0,0,0,0.5);
+}
+.btn:active { transform: translateY(5px); box-shadow: none; }
+.btn-add { background: var(--neon-green); text-shadow: 0 0 5px black; }
+.btn-transfer { background: var(--neon-blue); text-shadow: 0 0 5px black; }
+.btn-wash { background: var(--neon-pink); text-shadow: 0 0 5px black; }
+
+/* --- MODAL --- */
+.modal-hidden { display: none; }
+#modal-overlay {
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%;
+    background: rgba(0,0,0,0.85); 
+    z-index: 999;
+    
+    /* --- CHANGE THIS LINE --- */
+    display: none; /* It was 'display: flex' before. Change it to 'none' */
+    /* ------------------------ */
+    
+    align-items: center; 
+    justify-content: center;
+    backdrop-filter: blur(8px);
+}
+.modal-content {
+    background: #1e293b; padding: 40px; border-radius: 20px; text-align: center;
+    border: 2px solid var(--neon-red); position: relative;
+    box-shadow: 0 0 50px rgba(239, 68, 68, 0.4);
+    animation: shake 0.4s ease-out;
+}
+#modal-title { color: var(--neon-red); font-family: 'Orbitron'; margin: 0; font-size: 30px; }
+#modal-msg { color: white; font-size: 18px; margin: 20px 0; }
+.btn-close { padding: 10px 30px; background: transparent; border: 1px solid var(--neon-red); color: var(--neon-red); cursor: pointer; font-weight: bold; }
+.btn-close:hover { background: var(--neon-red); color: white; }
+
+@keyframes shake { 0% { transform: translateX(0); } 25% { transform: translateX(-5px); } 50% { transform: translateX(5px); } 100% { transform: translateX(0); } }
